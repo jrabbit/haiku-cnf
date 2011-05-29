@@ -11,8 +11,7 @@ def update_db():
     db = get_db()
     db['base-pkgs'] = json.dumps(read_basepkgs())
     if Popen(['which', 'haikuports'],stdout=PIPE).communicate()[0]:
-        haikuports = [x.split('/')[1] for x in Popen(['haikuports', 'list'],stdout=PIPE).communicate()[0]]
-        db['haikuports'] = json.dumps(haikuports)
+        db['haikuports'] = json.dumps(read_haikuports())
 
 def get_db(name="filenames"):
     home = os.path.expanduser('~')
@@ -51,6 +50,10 @@ def read_basepkgs():
         if x is not ".": #Why the hell is this in $PATH?
             baseapps = baseapps + os.listdir(x)
     return baseapps
+
+def read_haikuports():
+    haikuports = [x.split('/')[1] for x in Popen(['haikuports', 'list'],stdout=PIPE).communicate()[0]]
+    return haikuports
 
 def firstrun():
     "Cache existing packages for later use"
