@@ -16,7 +16,8 @@ fi
 
 default_options="""{
 "autocorrect": false, 
-"spellcheck": false
+"spellcheck": false,
+"haikuports": false
 }"""
 home = os.environ['HOME']
 if not os.path.exists("%s/config/settings/command-not-found/options.json" % home):
