@@ -96,8 +96,10 @@ if __name__ == '__main__':
         firstrun()
     if sys.argv[1].lower() == 'updatedb':
         update_db()
+        sys.exit()
     elif sys.argv[1].lower() == '--debug':
         print all_cmds(), get_db(), get_options()
+        sys.exit()
     if options['spellcheck']:
         for word in similar(command):
             if word in all_cmds():
