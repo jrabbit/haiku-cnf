@@ -2,6 +2,7 @@
 import os
 import sys
 import json
+import pprint
 import anydbm
 from subprocess import Popen, PIPE
 
@@ -98,7 +99,9 @@ if __name__ == '__main__':
         update_db()
         sys.exit()
     elif sys.argv[1].lower() == '--debug':
-        print all_cmds(), get_db(), get_options()
+        pprint.pprint(all_cmds())
+        pprint.pprint(get_db())
+        pprint.pprint(get_options())
         sys.exit()
     if options['spellcheck']:
         for word in similar(command):
