@@ -10,7 +10,19 @@ else
     command_not_found_handle(){
         echo "$1 not found: try installoptionalpkg $1; and check installoptionalpkg -l"
     }     
-fi"""
+fi
+"""
+profile = open("/etc/profile", "a")
+profile.write(hacks)
+profile.close()
 
-os.system("echo %s >> /etc/profile" % hacks)
+default_options="""{
+"autocorrect": false, 
+"spellcheck": false
+}"""
+
+options = open("/etc/profile", "w")
+options.write(default_options)
+options.close()
+
 os.system("cp haiku_cnf.py /boot/common/bin/command_not_found.py")
