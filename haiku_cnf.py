@@ -99,11 +99,12 @@ if __name__ == '__main__':
                 else:
                     print "Did you mean %s" % word
     else:
-        if command in optional_pkg():
+        db = get_db()
+        if command in db['iop-pkgs']:
             print "This application is availible via `installoptionalpackage %s`" \
             % command
         elif 'haikuports' in options:
-            if command in get_db('haikuports'):
+            if command in db['haikuports']:
                 "This application is availible via `haikuporter -i %s`" % command
         else:
             print "%s : Command not found. Sorry." % command
