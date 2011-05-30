@@ -23,7 +23,7 @@ def all_cmds():
     cmds = []
     for x in db:
         if x.split('-')[0] not in ['haikuports', 'meta']:
-            cmds = cmds + db[x]
+            cmds = cmds + json.loads(db[x])
     return cmds
 
 def get_options():
