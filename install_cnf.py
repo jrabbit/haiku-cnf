@@ -22,6 +22,7 @@ default_options="""{
 }"""
 
 home = os.environ['HOME']
+os.mkdir("%s/config/settings/command-not-found/" % home)
 options = open("%s/config/settings/command-not-found/options.json" % home, "w")
 options.write(default_options)
 options.close()
