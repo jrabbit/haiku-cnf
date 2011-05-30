@@ -30,7 +30,7 @@ def get_options():
     home = os.path.expanduser('~')
     directory = os.path.join(home,"config", "settings","command-not-found")
     config = os.path.join(directory, "options.json")
-    return json.load(config)
+    return json.load(open(config, "r"))
 
 def read_installopt():
     iop_pkgs = []
