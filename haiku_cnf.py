@@ -87,6 +87,9 @@ def help():
     %(app)s reads options from ~/config/settings/command-not-found/options.json""" % {'app': sys.argv[0]}
 
 if __name__ == '__main__':
+    if len(sys.argv) < 2 or sys.argv[1] is '-h':
+        print help()
+        sys.exit()
     command = sys.argv[1] 
     options = get_options()
     if 'meta-setup' not in get_db():
@@ -112,5 +115,3 @@ if __name__ == '__main__':
         update_db()
     elif sys.argv[1].lower() == '--debug':
         print all_cmds(), get_db(), get_options()
-    elif len(sys.argv) < 2 or sys.argv[1] is '-h':
-        print help()
