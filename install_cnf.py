@@ -2,7 +2,7 @@
 import os
 
 hacks = """# command-not-found tomfoolery
-if [ -e /boot/common/bin/python]; then
+if [ -e /boot/common/bin/python ]; then
     command_not_found_handle(){
         /boot/common/bin/python /boot/common/bin/command_not_found.py "$1"
     }
