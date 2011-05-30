@@ -21,7 +21,8 @@ default_options="""{
 "spellcheck": false
 }"""
 
-options = open("/etc/profile", "w")
+home = os.environ['HOME']
+options = open("%s/config/settings/command-not-found/options.json" % home, "w")
 options.write(default_options)
 options.close()
 
