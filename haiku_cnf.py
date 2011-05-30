@@ -10,7 +10,7 @@ def update_db():
     use spellchecking."""
     db = get_db()
     db['base-pkgs'] = json.dumps(read_basepkgs())
-    if Popen(['which', 'haikuports'],stdout=PIPE).communicate()[0]:
+    if Popen(['which', 'haikuporter'],stdout=PIPE).communicate()[0]:
         db['haikuports'] = json.dumps(read_haikuports())
 
 def get_db(name="filenames"):
