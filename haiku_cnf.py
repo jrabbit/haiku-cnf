@@ -104,7 +104,7 @@ if __name__ == '__main__':
             % command
         elif 'haikuports' in options:
             if command in get_db('haikuports'):
-                pass
+                "This application is availible via `haikuporter -i %s`" % command
         else:
             print "%s : Command not found. Sorry." % command
     if sys.argv[1].lower() == 'updatedb':
