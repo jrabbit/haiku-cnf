@@ -87,13 +87,17 @@ def help():
     %(app)s reads options from ~/config/settings/command-not-found/options.json""" % {'app': sys.argv[0]}
 
 if __name__ == '__main__':
-    if len(sys.argv) < 2 or sys.argv[1] is '-h':
+    if len(sys.argv) < 2 or sys.argv[1] in ['-h', '--help']:
         print help()
         sys.exit()
     command = sys.argv[1] 
     options = get_options()
     if 'meta-setup' not in get_db():
         firstrun()
+    if sys.argv[1].lower() == 'updatedb':
+        update_db()
+    elif sys.argv[1].lower() == '--debug':
+        print all_cmds(), get_db(), get_options()
     if options['spellcheck']:
         for word in similar(command):
             if word in all_cmds():
@@ -111,7 +115,3 @@ if __name__ == '__main__':
                 "This application is availible via `haikuporter -i %s`" % command
         else:
             print "%s : Command not found. Sorry." % command
-    if sys.argv[1].lower() == 'updatedb':
-        update_db()
-    elif sys.argv[1].lower() == '--debug':
-        print all_cmds(), get_db(), get_options()
