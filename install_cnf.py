@@ -12,19 +12,19 @@ else
     }     
 fi
 """
-profile = open("/etc/profile", "a")
-profile.write(hacks)
-profile.close()
+
 
 default_options="""{
 "autocorrect": false, 
 "spellcheck": false
 }"""
-
 home = os.environ['HOME']
-os.mkdir("%s/config/settings/command-not-found/" % home)
-options = open("%s/config/settings/command-not-found/options.json" % home, "w")
-options.write(default_options)
-options.close()
-
+if not os.path.exists("%s/config/settings/command-not-found/options.json" % home):
+    profile = open("/etc/profile", "a")
+    profile.write(hacks)
+    profile.close()
+    os.mkdir("%s/config/settings/command-not-found/" % home)
+    options = open("%s/config/settings/command-not-found/options.json" % home, "w")
+    options.write(default_options)
+    options.close()
 os.system("cp haiku_cnf.py /boot/common/bin/command_not_found.py")
