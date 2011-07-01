@@ -12,6 +12,7 @@ def update_db():
     db = get_db()
     db['base-pkgs'] = json.dumps(read_basepkgs())
     if Popen(['which', 'haikuporter'],stdout=PIPE).communicate()[0]:
+        home = os.path.expanduser('~')
         options = open("%s/config/settings/command-not-found/options.json" % home, "w")
         d = json.load(options)
         d['haikuports'] = True
