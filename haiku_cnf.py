@@ -122,7 +122,7 @@ if __name__ == '__main__':
             #works
             print "This application is availible via `installoptionalpackage %s`" \
             % command
-        elif options['haikuports']:
+        elif options['haikuports'] == True:
             if command in db['haikuports']:
                 print "This application is availible via `haikuporter -i %s`" % command
         else:
