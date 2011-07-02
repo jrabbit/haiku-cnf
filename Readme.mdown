@@ -1,0 +1,4 @@
+Command Not Found
+------------------
+
+`command_not_found_handle` is what this app hooks into to inform end users where to find an application if they don't have it. It can also check for typos (a feature of zsh). 
