@@ -11,6 +11,7 @@ else
         echo "$1 not found: try installoptionalpkg $1; and check installoptionalpkg -l"
     }     
 fi
+\n
 """
 
 
@@ -18,7 +19,7 @@ default_options="""{
 "autocorrect": false, 
 "spellcheck": false,
 "haikuports": false
-}"""
+}\n"""
 home = os.environ['HOME']
 if not os.path.exists("%s/config/settings/command-not-found/options.json" % home):
     profile = open("/etc/profile", "a")
@@ -28,4 +29,4 @@ if not os.path.exists("%s/config/settings/command-not-found/options.json" % home
     options = open("%s/config/settings/command-not-found/options.json" % home, "w")
     options.write(default_options)
     options.close()
-os.system("cp haiku_cnf.py /boot/common/bin/command_not_found.py")
+os.system("install -m 755 haiku_cnf.py /boot/common/bin/command_not_found.py")

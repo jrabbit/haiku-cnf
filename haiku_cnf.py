@@ -1,4 +1,5 @@
 #!/bin/env python
+#GPL v3 (c) 2011 Jrabbit
 import os
 import sys
 import json
