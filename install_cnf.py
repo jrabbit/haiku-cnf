@@ -8,7 +8,7 @@ if [ -e /system/bin/python ]; then
     }
 else
     command_not_found_handle(){
-        echo "$1 not found: try installoptionalpkg $1; and check installoptionalpkg -l"
+        echo "$1 not found: try pkgman install $1; and check pkgman search $1"
     }     
 fi
 \n
