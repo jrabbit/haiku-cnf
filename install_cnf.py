@@ -2,9 +2,9 @@
 import os
 
 hacks = """# command-not-found tomfoolery
-if [ -e /boot/common/bin/python ]; then
+if [ -e /system/bin/python ]; then
     command_not_found_handle(){
-        /boot/common/bin/python /boot/common/bin/command_not_found.py "$1"
+        /boot/system/bin/python /boot/system/non-packaged/bin/command_not_found.py "$1"
     }
 else
     command_not_found_handle(){
@@ -29,4 +29,4 @@ if not os.path.exists("%s/config/settings/command-not-found/options.json" % home
     options = open("%s/config/settings/command-not-found/options.json" % home, "w")
     options.write(default_options)
     options.close()
-os.system("install -m 755 haiku_cnf.py /boot/common/bin/command_not_found.py")
+os.system("install -m 755 haiku_cnf.py /boot/system/non-packaged/bin/command_not_found.py")
