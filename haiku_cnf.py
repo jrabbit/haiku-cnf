@@ -66,7 +66,10 @@ def read_basepkgs():
     baseapps = []
     for x in os.environ['PATH'].split(':'):
         if x is not ".": #Why the hell is this in $PATH?
-            baseapps = baseapps + os.listdir(x)
+            try:
+                 baseapps = baseapps + os.listdir(x)
+            except OSError:
+                 pass
     return baseapps
 
 def read_haikuports():
@@ -75,7 +78,7 @@ def read_haikuports():
 def firstrun():
     "Cache existing packages for later use"
     db = get_db() 
-    db['iop-pkgs'] = json.dumps(read_installopt())
+    # db['iop-pkgs'] = json.dumps(read_installopt())
     db['base-pkgs'] = json.dumps(read_basepkgs())
     db['builtins'] = json.dumps(['function', 'set', 'false', 'help', 'mapfile', 'getopts', 'compopt', 'cd', 'return', 'enable', 'export', 'pushd', 'type', 'printf', 'jobs', 'times', 'coproc', 'select', 'if', 'logout', 'job_spec', 'for', 'ulimit', 'popd', 'umask', 'readonly', 'source', 'builtin', 'exit', 'suspend', 'wait', 'local', 'until', 'dirs', 'bg', 'hash', 'complete', 'compgen', 'exec', 'read', 'time', 'break', 'test', 'pwd', 'fc', 'let', 'eval', 'fg', 'disown', 'echo', 'true', 'unalias', 'case', 'typeset', 'bind', 'caller', 'shopt', 'alias', 'while', 'continue', 'command', 'trap', 'shift', 'kill', 'readarray', 'declare', 'unset', 'history'])
     db['meta-setup'] = 'True'
@@ -128,11 +131,7 @@ if __name__ == '__main__':
                     print "Did you mean %s" % word
     else:
         db = get_db()
-        if command in db['iop-pkgs']:
-            #works
-            print "This application is availible via `installoptionalpackage %s`" \
-            % command
-        elif options['haikuports'] == True:
+        if options['haikuports'] == True:
             if command in db['haikuports']:
                 print "This application is availible via `haikuporter -i %s`" % command
         else:
