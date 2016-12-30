@@ -5,7 +5,7 @@ import json
 import os
 import pprint
 import sys
-from subprocess import PIPE, Popen
+from subprocess import PIPE, Popen, check_output
 
 
 def update_db():
@@ -39,6 +39,10 @@ def get_options():
     directory = os.path.join(home,"config", "settings","command-not-found")
     config = os.path.join(directory, "options.json")
     return json.load(open(config, "r"))
+
+def search_provides(cmd):
+    out = check_output(['pkgman', 'search', 'cmd:{}'.format(cmd)])
+    
 
 def read_installopt():
     iop_pkgs = []
