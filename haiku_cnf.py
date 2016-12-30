@@ -70,7 +70,8 @@ def read_basepkgs():
     return baseapps
 
 def read_haikuports():
-    haikuports = [x.split('/')[1] for x in Popen(['haikuporter', '-l'],stdout=PIPE).communicate()[0].split()]
+    haikuports = check_output(["haikuporter", "-l"]).splitlines()
+    # haikuports = [x.split('/')[1] for x in Popen(['haikuporter', '-l'],stdout=PIPE).communicate()[0].split()]
     return haikuports
 
 def firstrun():
