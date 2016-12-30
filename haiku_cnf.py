@@ -1,11 +1,12 @@
 #!/bin/env python
-#GPL v3 (c) 2011 Jrabbit
-import os
-import sys
-import json
-import pprint
+#GPL v3 (c) 2011, 2016 Jack Laxson "jrabbit"
 import anydbm
-from subprocess import Popen, PIPE
+import json
+import os
+import pprint
+import sys
+from subprocess import PIPE, Popen
+
 
 def update_db():
     """Update the db for when haikuports gets installed or user selects to
