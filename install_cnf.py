@@ -27,7 +27,11 @@ def main():
         profile = open("/etc/profile", "a")
         profile.write(hacks)
         profile.close()
-        os.mkdir("%s/config/settings/command-not-found/" % home)
+        try:
+            os.mkdir("%s/config/settings/command-not-found/" % home)
+        except OSError:
+            # Folder exists
+            pass
         options = open("%s/config/settings/command-not-found/options.json" % home, "w")
         options.write(default_options)
         options.close()
