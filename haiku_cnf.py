@@ -1,5 +1,5 @@
 #!/bin/env python
-#GPL v3 (c) 2011, 2016 Jack Laxson "jrabbit"
+#GPL v3 (c) 2011, 2016-2017 Jack Laxson "jrabbit"
 import anydbm
 import json
 import os
@@ -15,11 +15,11 @@ def update_db():
     db['base-pkgs'] = json.dumps(read_basepkgs())
     if Popen(['which', 'haikuporter'],stdout=PIPE).communicate()[0]:
         home = os.path.expanduser('~')
-        options = open("%s/config/settings/command-not-found/options.json" % home, "w")
-        d = json.load(options)
-        d['haikuports'] = True
-        json.dump(d, options)
-        db['haikuports'] = json.dumps(read_haikuports())
+        with open("%s/config/settings/command-not-found/options.json" % home, "w") as options: 
+            d = json.load(options)
+            d['haikuports'] = True
+            # json.dump(d, options)
+            db['haikuports'] = json.dumps(read_haikuports())
 
 def get_db(name="filenames"):
     home = os.path.expanduser('~')
@@ -38,7 +38,8 @@ def get_options():
     home = os.path.expanduser('~')
     directory = os.path.join(home,"config", "settings","command-not-found")
     config = os.path.join(directory, "options.json")
-    return json.load(open(config, "r"))
+    with open(config, 'r') as f:
+        return json.load(f)
 
 def search_provides(cmd):
     out = check_output(['pkgman', 'search', '--details', 'cmd:{}'.format(cmd)])
@@ -50,35 +51,35 @@ def search_provides(cmd):
         return [{"name": i.split()[1], "repo":i.split()[0]} for i in rest]
 
 
-def read_installopt():
-    iop_pkgs = []
-    datadir = Popen(['finddir', 'B_COMMON_DATA_DIRECTORY'],stdout=PIPE).communicate()[0].strip()
-    #I'm not going to check OptionalLibPackages because no one will call a 
-    #library from the cli.
-    filename = os.path.join(datadir, 'optional-packages/OptionalPackages')
-    for line in open(filename):
-        if len(line.split()) > 3:
-            if line.split()[2] == 'IsOptionalHaikuImagePackageAdded':
-                iop_pkgs.append(line.split()[3].lower())
-    return iop_pkgs  
+# def read_installopt():
+#     iop_pkgs = []
+#     datadir = Popen(['finddir', 'B_COMMON_DATA_DIRECTORY'],stdout=PIPE).communicate()[0].strip()
+#     #I'm not going to check OptionalLibPackages because no one will call a 
+#     #library from the cli.
+#     filename = os.path.join(datadir, 'optional-packages/OptionalPackages')
+#     for line in open(filename):
+#         if len(line.split()) > 3:
+#             if line.split()[2] == 'IsOptionalHaikuImagePackageAdded':
+#                 iop_pkgs.append(line.split()[3].lower())
+#     return iop_pkgs  
 
 def read_basepkgs():
     baseapps = []
     for x in os.environ['PATH'].split(':'):
         if x is not ".": #Why the hell is this in $PATH?
             try:
-                 baseapps = baseapps + os.listdir(x)
+                baseapps = baseapps + os.listdir(x)
             except OSError:
-                 pass
+                # This means the folder doesn't exist but is in $PATH
+                pass
     return baseapps
 
 def read_haikuports():
     return check_output(["haikuporter", "-l"]).splitlines()
 
 def firstrun():
-    "Cache existing packages for later use"
+    """Cache existing packages for later use"""
     db = get_db() 
-    # db['iop-pkgs'] = json.dumps(read_installopt())
     db['base-pkgs'] = json.dumps(read_basepkgs())
     db['builtins'] = json.dumps(['function', 'set', 'false', 'help', 'mapfile', 'getopts', 'compopt', 'cd', 'return', 'enable', 'export', 'pushd', 'type', 'printf', 'jobs', 'times', 'coproc', 'select', 'if', 'logout', 'job_spec', 'for', 'ulimit', 'popd', 'umask', 'readonly', 'source', 'builtin', 'exit', 'suspend', 'wait', 'local', 'until', 'dirs', 'bg', 'hash', 'complete', 'compgen', 'exec', 'read', 'time', 'break', 'test', 'pwd', 'fc', 'let', 'eval', 'fg', 'disown', 'echo', 'true', 'unalias', 'case', 'typeset', 'bind', 'caller', 'shopt', 'alias', 'while', 'continue', 'command', 'trap', 'shift', 'kill', 'readarray', 'declare', 'unset', 'history'])
     db['meta-setup'] = 'True'
@@ -96,8 +97,8 @@ def similar(word):
     inserts    = [a + c + b     for a, b in s for c in alphabet]
     return set(deletes + transposes + replaces + inserts)
 
-def help():
-    "Return help with refrence to invocation name"
+def our_help():
+    """Return help with refrence to invocation name"""
     return """Command Not Found -- Haiku 
     Normal usage as invoked by bash: %(app)s [command]
     To update the database: %(app)s updatedb
@@ -108,7 +109,7 @@ def help():
 
 if __name__ == '__main__':
     if len(sys.argv) < 2 or sys.argv[1] in ['-h', '--help']:
-        print help()
+        print our_help()
         sys.exit()
     command = sys.argv[1] 
     options = get_options()
