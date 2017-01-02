@@ -41,7 +41,7 @@ def get_options():
     return json.load(open(config, "r"))
 
 def search_provides(cmd):
-    out = check_output(['pkgman', 'search', 'cmd:{}'.format(cmd)])
+    out = check_output(['pkgman', 'search', '--details', 'cmd:{}'.format(cmd)])
     split = out.splitlines()
     if out.startswith("No matching packages found."):
         return None
