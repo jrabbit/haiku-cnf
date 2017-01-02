@@ -42,7 +42,13 @@ def get_options():
 
 def search_provides(cmd):
     out = check_output(['pkgman', 'search', 'cmd:{}'.format(cmd)])
-    
+    split = out.splitlines()
+    if out.startswith("No matching packages found."):
+        return None
+    else:
+        rest = out.splitlines()[2:]
+        return [{"name": i.split()[1], "repo":i.split()[0]} for i in rest]
+
 
 def read_installopt():
     iop_pkgs = []
