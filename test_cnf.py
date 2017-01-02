@@ -1,7 +1,7 @@
 import unittest
 import mock
 
-from haiku_cnf import search_provides
+from haiku_cnf import search_provides, read_haikuports, firstrun
 
 class TestPkgmanHooks(unittest.TestCase):
     @mock.patch('haiku_cnf.check_output')
@@ -26,4 +26,23 @@ HaikuPorts  postgresql         9.3.5-2       x86_gcc2
         ret = search_provides("foobarbaz")
         expected = None
         self.assertEqual(ret, expected)
+
+
+class TestHP(unittest.TestCase):
+    @mock.patch('haiku_cnf.check_output')
+    def test_haikuports(self, patched_check_output):
+        ret = read_haikuports()
+        patched_check_output.return_value.splitlines.assert_called_with()
+
+
+class TestFirstRun(unittest.TestCase):
+    @mock.patch("haiku_cnf.read_basepkgs")
+    @mock.patch("haiku_cnf.get_db")
+    def test_first_run(self, patched_get_db, patched_basepkgs):
+        patched_get_db.return_value = {}
+        patched_basepkgs.return_value = None
+        firstrun()
+        patched_get_db.assert_called_with()
+        patched_basepkgs.assert_called_with()
+
 
