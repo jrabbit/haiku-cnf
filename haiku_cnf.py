@@ -133,7 +133,9 @@ if __name__ == '__main__':
             if word in all_cmds():
                 if options['autocorrect'] and cmd_installed(word):
                     os.system(' '.join([word] + sys.argv[2:]))
+                    # I'm pretty sure this is a bad idea.
                 else:
+                    # So when we get here we should still say CNF right?
                     print "Did you mean %s" % word
     else:
         db = get_db()
