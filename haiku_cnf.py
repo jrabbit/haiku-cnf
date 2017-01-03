@@ -50,6 +50,10 @@ def search_provides(cmd):
         rest = out.splitlines()[2:]
         return [{"name": i.split()[1], "repo":i.split()[0]} for i in rest]
 
+def read_pkgman():
+    out = check_output(['pkgman', 'search', '-a', '--details'])
+    rest = out.splitlines()[2:]
+    return [i.split()[1] for i in rest]
 
 # def read_installopt():
 #     iop_pkgs = []
@@ -81,6 +85,7 @@ def firstrun():
     """Cache existing packages for later use"""
     db = get_db() 
     db['base-pkgs'] = json.dumps(read_basepkgs())
+    db['haikudepot'] = json.dumps(read_pkgman())
     db['builtins'] = json.dumps(['function', 'set', 'false', 'help', 'mapfile', 'getopts', 'compopt', 'cd', 'return', 'enable', 'export', 'pushd', 'type', 'printf', 'jobs', 'times', 'coproc', 'select', 'if', 'logout', 'job_spec', 'for', 'ulimit', 'popd', 'umask', 'readonly', 'source', 'builtin', 'exit', 'suspend', 'wait', 'local', 'until', 'dirs', 'bg', 'hash', 'complete', 'compgen', 'exec', 'read', 'time', 'break', 'test', 'pwd', 'fc', 'let', 'eval', 'fg', 'disown', 'echo', 'true', 'unalias', 'case', 'typeset', 'bind', 'caller', 'shopt', 'alias', 'while', 'continue', 'command', 'trap', 'shift', 'kill', 'readarray', 'declare', 'unset', 'history'])
     db['meta-setup'] = 'True'
 

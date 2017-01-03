@@ -36,13 +36,15 @@ class TestHP(unittest.TestCase):
 
 
 class TestFirstRun(unittest.TestCase):
+    @mock.patch("haiku_cnf.read_pkgman", return_value=[None])
     @mock.patch("haiku_cnf.read_basepkgs")
     @mock.patch("haiku_cnf.get_db")
-    def test_first_run(self, patched_get_db, patched_basepkgs):
+    def test_first_run(self, patched_get_db, patched_basepkgs, patched_pkgman):
         patched_get_db.return_value = {}
-        patched_basepkgs.return_value = None
+        patched_basepkgs.return_value = [None]
         firstrun()
         patched_get_db.assert_called_with()
         patched_basepkgs.assert_called_with()
+        patched_pkgman.assert_called_with()
 
 
