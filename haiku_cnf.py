@@ -102,6 +102,10 @@ def similar(word):
     inserts    = [a + c + b     for a, b in s for c in alphabet]
     return set(deletes + transposes + replaces + inserts)
 
+def cmd_installed(cmd):
+    return True
+
+
 def our_help():
     """Return help with refrence to invocation name"""
     return """Command Not Found -- Haiku 
