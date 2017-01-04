@@ -116,11 +116,19 @@ def our_help():
     --
     %(app)s reads options from ~/config/settings/command-not-found/options.json""" % {'app': sys.argv[0]}
 
+def cnf(command):
+    db = get_db()
+    if options['haikuports'] == True:
+        if command in db['haikuports']:
+            print("This application is availible via `haikuporter -i %s`" % command)
+    else:
+        print("{} : Command not found. Sorry.".format(command))
+
 if __name__ == '__main__':
     if len(sys.argv) < 2 or sys.argv[1] in ['-h', '--help']:
-        print our_help()
+        print(our_help())
         sys.exit()
-    command = sys.argv[1] 
+    command = sys.argv[1]
     options = get_options()
     if 'meta-setup' not in get_db():
         firstrun()
@@ -138,16 +146,12 @@ if __name__ == '__main__':
                 if options['autocorrect'] and cmd_installed(word):
                     # I'm pretty sure this is a bad idea.
                     os.system(' '.join([word] + sys.argv[2:]))
+                    # os.system is actually sub-call or something and doesn't take over.
                     break
                 else:
                     # So when we get here we should still say CNF right?
                     print("Did you mean %s" % word)
-                    print("Which isn't installed.")
+                    cnf(word)
 
     else:
-        db = get_db()
-        if options['haikuports'] == True:
-            if command in db['haikuports']:
-                print("This application is availible via `haikuporter -i %s`" % command)
-        else:
-            print("%s : Command not found. Sorry." % command)
+        cnf(command)
