@@ -122,7 +122,7 @@ def cnf(command):
         if command in json.loads(db['haikuports']):
             print("This application is availible via `haikuporter -i %s`" % command)
     elif command in json.loads(db['haikudepot']):
-        print("This application is aviaiblible via pkgman install {}".format(commandc))
+        print("This application is aviaiblible via pkgman install {}".format(command))
     else:
         print("{} : Command not found. Sorry.".format(command))
 
