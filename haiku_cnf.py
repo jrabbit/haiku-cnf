@@ -133,6 +133,7 @@ if __name__ == '__main__':
     if len(sys.argv) < 2 or sys.argv[1] in ['-h', '--help']:
         print(our_help())
         sys.exit()
+    logging.basicConfig(level=logging.DEBUG)
     command = sys.argv[1]
     options = get_options()
     if 'meta-setup' not in get_db():
