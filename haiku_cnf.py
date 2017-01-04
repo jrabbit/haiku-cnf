@@ -149,11 +149,14 @@ if __name__ == '__main__':
                     # I'm pretty sure this is a bad idea.
                     os.system(' '.join([word] + sys.argv[2:]))
                     # os.system is actually sub-call or something and doesn't take over.
+                    # Need to escape the for loop
                     sys.exit()
                 else:
                     # So when we get here we should still say CNF right?
                     print("Did you mean %s" % word)
                     cnf(word)
+                    # Need to escape the for loop
+                    sys.exit()
 
     else:
         cnf(command)
