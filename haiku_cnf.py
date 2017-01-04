@@ -159,7 +159,7 @@ if __name__ == '__main__':
                 else:
                     # So when we get here we should still say CNF right?
                     print("Did you mean %s" % word)
-                    cnf(word)
+                    cnf(command)
                     # Need to escape the for loop
                     sys.exit()
 
