@@ -4,9 +4,11 @@ import anydbm
 import json
 import os
 import pprint
+import logging
 import sys
 from subprocess import PIPE, Popen, check_output
 
+logger = logging.getLogger(__name__)
 
 def update_db():
     """Update the db for when haikuports gets installed or user selects to
@@ -119,6 +121,7 @@ def our_help():
 def cnf(command):
     db = get_db()
     if options['haikuports'] == True:
+        logger.debug("CNF: Haikuports check")
         if command in json.loads(db['haikuports']):
             print("This application is availible via `haikuporter -i %s`" % command)
     elif command in json.loads(db['haikudepot']):
