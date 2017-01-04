@@ -119,8 +119,10 @@ def our_help():
 def cnf(command):
     db = get_db()
     if options['haikuports'] == True:
-        if command in db['haikuports']:
+        if command in json.loads(db['haikuports']):
             print("This application is availible via `haikuporter -i %s`" % command)
+    elif command in json.loads(db['haikudepot']):
+        print("This application is aviaiblible via pkgman install {}".format(commandc))
     else:
         print("{} : Command not found. Sorry.".format(command))
 
