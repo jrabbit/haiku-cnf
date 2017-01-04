@@ -136,15 +136,18 @@ if __name__ == '__main__':
         for word in similar(command):
             if word in all_cmds():
                 if options['autocorrect'] and cmd_installed(word):
-                    os.system(' '.join([word] + sys.argv[2:]))
                     # I'm pretty sure this is a bad idea.
+                    os.system(' '.join([word] + sys.argv[2:]))
+                    break
                 else:
                     # So when we get here we should still say CNF right?
-                    print "Did you mean %s" % word
+                    print("Did you mean %s" % word)
+                    print("Which isn't installed.")
+
     else:
         db = get_db()
         if options['haikuports'] == True:
             if command in db['haikuports']:
-                print "This application is availible via `haikuporter -i %s`" % command
+                print("This application is availible via `haikuporter -i %s`" % command)
         else:
-            print "%s : Command not found. Sorry." % command
+            print("%s : Command not found. Sorry." % command)
