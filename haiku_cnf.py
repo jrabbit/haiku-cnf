@@ -57,18 +57,6 @@ def read_pkgman():
     rest = out.splitlines()[2:]
     return [i.split()[1] for i in rest]
 
-# def read_installopt():
-#     iop_pkgs = []
-#     datadir = Popen(['finddir', 'B_COMMON_DATA_DIRECTORY'],stdout=PIPE).communicate()[0].strip()
-#     #I'm not going to check OptionalLibPackages because no one will call a 
-#     #library from the cli.
-#     filename = os.path.join(datadir, 'optional-packages/OptionalPackages')
-#     for line in open(filename):
-#         if len(line.split()) > 3:
-#             if line.split()[2] == 'IsOptionalHaikuImagePackageAdded':
-#                 iop_pkgs.append(line.split()[3].lower())
-#     return iop_pkgs  
-
 def read_basepkgs():
     baseapps = []
     for x in os.environ['PATH'].split(':'):
@@ -138,8 +126,10 @@ if __name__ == '__main__':
     command = sys.argv[1]
     options = get_options()
     if 'meta-setup' not in get_db():
+        logger.debug("Running for first time")
         firstrun()
     if sys.argv[1].lower() == 'updatedb':
+        logger.debug("Updating database")
         update_db()
         sys.exit()
     elif sys.argv[1].lower() == '--debug':
@@ -162,6 +152,7 @@ if __name__ == '__main__':
                     cnf(command)
                     # Need to escape the for loop
                     sys.exit()
+        # Its possible to get here?
         cnf(command)
     else:
         cnf(command)
