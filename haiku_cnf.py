@@ -119,6 +119,7 @@ def our_help():
     %(app)s reads options from ~/config/settings/command-not-found/options.json""" % {'app': sys.argv[0]}
 
 def cnf(command):
+    logger.debug("Entered CNF: %s", command)
     db = get_db()
     if options['haikuports'] == True:
         logger.debug("CNF: Haikuports check")
