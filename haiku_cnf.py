@@ -109,12 +109,19 @@ def our_help():
 def cnf(command):
     logger.debug("Entered CNF: %s", command)
     db = get_db()
+    provides_info = search_provides(command)
     if options['haikuports'] == True:
         logger.debug("CNF: Haikuports check")
         if command in json.loads(db['haikuports']):
             print("This application is availible via `haikuporter -i %s`" % command)
     elif command in json.loads(db['haikudepot']):
         print("This application is aviaiblible via pkgman install {}".format(command))
+    elif provides_info:
+        if len(provides_info) == 1:
+            print("This application is aviaiblible via pkgman install {}".format(command))
+        else:
+            print("I found multiple potential packages for {}".format(command))
+            print("Try one of these: {}".format(provides_info))
     else:
         print("{} : Command not found. Sorry.".format(command))
 
