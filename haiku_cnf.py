@@ -162,6 +162,6 @@ if __name__ == '__main__':
                     cnf(command)
                     # Need to escape the for loop
                     sys.exit()
-
+        cnf(command)
     else:
         cnf(command)
